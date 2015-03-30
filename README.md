@@ -4,8 +4,8 @@ example of allegro 5 with ImGui (https://github.com/ocornut/imgui)
 # How to Build
 
 ```bash
-git clone git://ocornut/imgui
-git clone git://bggd/a5imgui_example
+git clone git://github.com/ocornut/imgui
+git clone git://github.com/bggd/a5imgui_example
 cd a5imgui_example
 ```
 
