@@ -17,8 +17,6 @@
 static ALLEGRO_DISPLAY *g_disp = NULL;
 static ALLEGRO_BITMAP *g_img = NULL;
 static double g_time = 0.0;
-static bool g_mouse_pressed[3] = {false, false, false};
-static float g_mouse_wheel = 0.0f;
 
 
 static void ImGui_ImplA5_RenderDrawLists(ImDrawList** const cmd_lists, int cmd_lists_count)
