@@ -150,7 +150,7 @@ bool ImGui_ImplA5_Init(ALLEGRO_DISPLAY *disp)
 
   io.RenderDrawListsFn = ImGui_ImplA5_RenderDrawLists;
 
-#ifdef WIN32
+#ifdef _WIN32
   io.ImeWindowHandle = al_get_win_window_handle(disp);
 #endif
 
