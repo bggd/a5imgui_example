@@ -92,10 +92,14 @@ bool Imgui_ImplA5_CreateDeviceObjects()
 
   ALLEGRO_LOCKED_REGION *locked_img;
   locked_img = al_lock_bitmap(img, al_get_bitmap_format(img), ALLEGRO_LOCK_WRITEONLY);
-  if (!locked_img) return false;
+  if (!locked_img) {
+    al_destroy_bitmap(img);
+    return false;
+  }
   memcpy(locked_img->data, pixels, sizeof(int)*width*height);
   al_unlock_bitmap(img);
 
+  // convert software texture to hardware texture.
   ALLEGRO_BITMAP *cloned_img = al_clone_bitmap(img);
   al_destroy_bitmap(img);
   if (!cloned_img) return false;
