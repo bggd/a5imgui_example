@@ -5,12 +5,10 @@
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_opengl.h>
 #include <cstring> // memcpy
 
 #ifdef _WIN32
 #include <allegro5/allegro_windows.h>
-#include <allegro5/allegro_direct3d.h>
 #endif
 
 
@@ -58,8 +56,9 @@ static void ImGui_ImplA5_RenderDrawLists(ImDrawList** const cmd_lists, int cmd_l
         pcmd->user_callback(cmd_list, pcmd);
       }
       else {
+        ALLEGRO_BITMAP *tex = (ALLEGRO_BITMAP*)pcmd->texture_id;
         al_set_clipping_rectangle(pcmd->clip_rect.x, pcmd->clip_rect.y, pcmd->clip_rect.z, pcmd->clip_rect.w);
-        al_draw_prim(&vertices[0], NULL, g_img, vtx_offset, vtx_offset+pcmd->vtx_count, ALLEGRO_PRIM_TRIANGLE_LIST);
+        al_draw_prim(&vertices[0], NULL, tex, vtx_offset, vtx_offset+pcmd->vtx_count, ALLEGRO_PRIM_TRIANGLE_LIST);
       }
       vtx_offset += pcmd->vtx_count;
     }
@@ -103,13 +102,8 @@ bool Imgui_ImplA5_CreateDeviceObjects()
   ALLEGRO_BITMAP *cloned_img = al_clone_bitmap(img);
   al_destroy_bitmap(img);
   if (!cloned_img) return false;
-
-#ifdef _WIN32
-  if ((al_get_display_flags(g_disp)&ALLEGRO_DIRECT3D) == ALLEGRO_DIRECT3D)
-    io.Fonts->TexID = al_get_d3d_video_texture(cloned_img);
-#endif
-  if ((al_get_display_flags(g_disp)&ALLEGRO_OPENGL) == ALLEGRO_OPENGL)
-    io.Fonts->TexID = (void*)(intptr_t)al_get_opengl_texture(cloned_img);
+  
+  io.Fonts->TexID = cloned_img;
 
   g_img = cloned_img;
 
@@ -121,7 +115,7 @@ void ImGui_ImplA5_InvalidateDeviceObjects()
 {
   if (g_img) {
     al_destroy_bitmap(g_img);
-    ImGui::GetIO().Fonts->TexID = 0;
+    ImGui::GetIO().Fonts->TexID = NULL;
     g_img = NULL;
   }
 }
