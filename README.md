@@ -1,3 +1,5 @@
+# This example is obsolete!
+# This is merged by official dear-imgui's repository. See https://github.com/ocornut/imgui/tree/master/examples
 
 example of allegro 5 with ImGui (https://github.com/ocornut/imgui)
 
